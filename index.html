@@ -1,0 +1,124 @@
+<!DOCTYPE hmtl>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Atminties žaidimas</title>
+        <link href="style.css" type="text/css" rel="stylesheet">
+    </head>
+    <body>
+    <section class="game">
+        <div class="memory-card" name="icon1">
+            <img class="front" src="img/chess.png">
+            <img class="back" src="img/icon1.png">
+        </div>
+        <div class="memory-card" name="icon1">
+            <img class="front" src="img/chess.png">
+            <img class="back" src="img/icon1.png">
+        </div>
+        <div class="memory-card" data-framework="icon2">
+            <img class="front" src="img/chess.png">
+            <img class="back" src="img/icon2.png">
+        </div>
+        <div class="memory-card" data-framework="icon2">
+            <img class="front" src="img/chess.png">
+            <img class="back" src="img/icon2.png">
+        </div>
+        <div class="memory-card" data-framework="icon3">
+            <img class="front" src="img/chess.png">
+            <img class="back" src="img/icon3.png">
+        </div>
+        <div class="memory-card" data-framework="icon3">
+            <img class="front" src="img/chess.png">
+            <img class="back" src="img/icon3.png">
+        </div>
+        <div class="memory-card" data-framework="icon4">
+            <img class="front" src="img/chess.png">
+            <img class="back" src="img/icon4.png">
+        </div>
+        <div class="memory-card" data-framework="icon4">
+            <img class="front" src="img/chess.png">
+            <img class="back" src="img/icon4.png">
+        </div>
+        <div class="memory-card" data-framework="icon5">
+            <img class="front" src="img/chess.png">
+            <img class="back" src="img/icon5.png">
+        </div>
+        <div class="memory-card" data-framework="icon5">
+            <img class="front" src="img/chess.png">
+            <img class="back" src="img/icon5.png">
+        </div>
+        <div class="memory-card" data-framework="icon6">
+            <img class="front" src="img/chess.png">
+            <img class="back" src="img/icon6.png">
+        </div>
+        <div class="memory-card" data-framework="icon6">
+            <img class="front" src="img/chess.png">
+            <img class="back" src="img/icon6.png">
+        </div>
+        </section>
+        <script>
+            
+           const cards = document.querySelectorAll('.memory-card');
+
+  let hasFlippedCard = false;
+  let lockBoard = false;
+  let firstCard, secondCard;
+
+  function flipCard() {
+    if (lockBoard) return;
+    if (this === firstCard) return;
+
+    this.classList.add('flip');
+
+    if (!hasFlippedCard) {
+      hasFlippedCard = true;
+      firstCard = this;
+      return;
+    }
+
+    secondCard = this;
+    lockBoard = true;
+
+    checkForMatch();
+  }
+
+  function checkForMatch() {
+    let isMatch = firstCard.dataset.framework === secondCard.dataset.framework;
+    isMatch ? disableCards() : unflipCards();
+  }
+
+  function disableCards() {
+    firstCard.removeEventListener('click', flipCard);
+    secondCard.removeEventListener('click', flipCard);
+
+    resetBoard();
+  }
+
+  function unflipCards() {
+    setTimeout(() => {
+      firstCard.classList.remove('flip');
+      secondCard.classList.remove('flip');
+
+      resetBoard();
+    }, 1500);
+  }
+
+  function resetBoard() {
+    [hasFlippedCard, lockBoard] = [false, false];
+    [firstCard, secondCard] = [null, null];
+  }
+
+(function shuffle() {
+  cards.forEach(card => {
+    let ramdomPos = Math.floor(Math.random() * 12);
+    card.style.order = ramdomPos;
+  });
+})();
+
+  cards.forEach(card => card.addEventListener('click', flipCard));
+            
+            
+        </script>
+        
+    </body>
+</html>
